@@ -31,16 +31,17 @@ class searchAPI():
                 print("Tweets Checked " + str(self.counter.tweetsChecked))
                 print(self.counter.total)
         else:
-            r = TwitterPager(self.api, 'search/tweets', {'q': self.counter.words, 'count': 100, 'since_id': self.last_id})
+            r = TwitterPager(self.api, 'search/tweets', {'q': self.counter.words, 'count': 100, 'since_id':self.last_id})
             for item in r.get_iterator(wait=6, new_tweets=True):
                 if 'id_str' in item:
                     tweet_id = int(item['id_str'])
                     if tweet_id > self.last_id:
                         self.last_id = tweet_id
                 if 'text' in item:
+                    print(item['created_at'])
                     self.counter.process_tweet(item['text'])
                 elif 'message' in item and item['code'] == 88:
                     print('\n*** SUSPEND, RATE LIMIT EXCEEDED: %s\n' % item['message'])
                     break
-        print("Tweets Checked " + str(self.counter.tweetsChecked))
-        print(self.counter.total)
+                print("Tweets Checked " + str(self.counter.tweetsChecked))
+                print(self.counter.total)

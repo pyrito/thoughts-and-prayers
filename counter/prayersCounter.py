@@ -25,9 +25,10 @@ class prayersCounter():
     def process_tweet(self, text):
         text = text.lower()
         self.tweetsChecked += 1
+
         if self.KEY_WORDS[2] in text and (self.KEY_WORDS[1] in text or self.KEY_WORDS[0] in text):
             self.total += 1
-        if self.tweetsChecked % 100 == 0:
+        if self.tweetsChecked % 10 == 0:
             self.c.execute( """UPDATE events SET tps = ? WHERE shooting_name= ? """, (self.total, self.currentShooting))
             self.conn.commit()
 
