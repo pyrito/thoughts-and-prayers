@@ -1,0 +1,19 @@
+@import url(https://fonts.googleapis.com/css?family=Lora:400,700|Open+Sans:400,400i,700);
+h1,h2{margin-top:30px}
+nav ul,p{line-height:150%;font-family:Lora,serif}
+.footer,nav{position:fixed;left:0}
+#navbar,*,h1,h2,nav ul,p{font-family:Lora,serif}
+*{background-color:#f6f3f3}
+figcaption{font-style:italic}
+h1{font-size:3.5em}
+h2{font-size:2.5em}
+p{font-weight:400;font-size:1.2em}
+img{max-width:100%;height:auto}
+nav{top:0;width:350px;height:100vh;text-align:center;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;border-right:10px solid #000}
+nav ul{padding:0;font-size:25px;text-align:left;font-weight:lighter;list-style:none}
+nav a{text-decoration:none;color:#000}nav a:
+hover{text-decoration:underline}
+.container{padding-left:200px;width:50%;margin:0 auto}
+.footer{bottom:0;width:100%;background-color:red;color:#fff;text-align:center}
+#navbar{font-size:60px}
+.center{display:block;margin-left:auto;margin-right:auto;width:100%}
