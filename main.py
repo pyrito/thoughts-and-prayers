@@ -16,6 +16,7 @@ socketio = SocketIO(app)
 
 thread_update = Thread()
 thread_stop_event = Event()
+thread.start_new_thread(run_main, ())
 
 class UpdateThread(Thread):
 	def __init__(self):
@@ -37,7 +38,6 @@ class UpdateThread(Thread):
 
 @app.route('/')
 def main():
-	thread.start_new_thread(run_main, ())
 	return render_template('index.html')
 
 @socketio.on('connect', namespace='/test')
