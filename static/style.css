@@ -13,7 +13,10 @@ nav{top:0;width:350px;height:100vh;text-align:center;display:-webkit-box;display
 nav ul{padding:0;font-size:25px;text-align:left;font-weight:lighter;list-style:none}
 nav a{text-decoration:none;color:#000}nav a:
 hover{text-decoration:underline}
-.container{padding-left:200px;width:50%;margin:0 auto}
+.middlecontainer {margin-top: 10px; padding-left:0px; width:70%; margin:0 auto; border-bottom-width: 2px; border-bottom-color: Black; border-bottom-style: solid}
+.topcontainer {margin-top:10px; padding-left: 0px; width: 70%; margin:0 auto; border-bottom-width: 2px; border-bottom-color: Black; border-bottom-style: solid}
+.bottomcontainer {margin-top:10px; padding-left: 0px; width: 70%; margin:0 auto;}
+
 .footer{bottom:0;width:100%;background-color:red;color:#fff;text-align:center}
 #navbar{font-size:60px}
 .center{display:block;margin-left:auto;margin-right:auto;width:100%}
