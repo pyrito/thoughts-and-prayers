@@ -17,6 +17,7 @@ socketio = SocketIO(app)
 #We have the update thread and the event that says to stop
 thread_update = Thread()
 thread_stop_event = Event()
+print("helllllloo world creating thread")
 thread.start_new_thread(run_main, ())
 
 #Created a new Thread class that is specific to the Update Thread for the counter
