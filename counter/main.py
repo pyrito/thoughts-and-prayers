@@ -1,6 +1,6 @@
 from .accessAPI import *
-import prayersCounter
-import searchAPI
+from .prayersCounter import *
+from .searchAPI import *
 import datetime
 import sqlite3
 import os
@@ -22,7 +22,7 @@ def setup_db():
 def run_main():
     api = get_api()
     setup_db()
-    pc = prayersCounter.prayers_counter()
-    search = searchAPI.search_API(api, pc)
+    pc = prayers_counter()
+    search = search_API(api, pc)
     search.count_prayers()
     search.count_prayers(True)
