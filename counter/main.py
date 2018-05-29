@@ -26,3 +26,6 @@ def run_main():
     search = search_API(api, pc)
     search.count_prayers()
     search.count_prayers(True)
+
+if __name__ == '__main__':
+    run_main()
