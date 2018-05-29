@@ -5,7 +5,7 @@ nav ul,p{line-height:150%;font-family:Lora,serif}
 #navbar,*,h1,h2,nav ul,p{font-family:Lora,serif}
 *{background-color:#f6f3f3}
 figcaption{font-style:italic}
-h1{font-size:3.5em}
+h1{text-align:center; font-size:3.5em}
 h2{font-size:2.5em}
 p{font-weight:400;font-size:1.2em}
 img{max-width:100%;height:auto}
@@ -15,8 +15,7 @@ nav a{text-decoration:none;color:#000}nav a:
 hover{text-decoration:underline}
 .middlecontainer {margin-top: 10px; padding-left:0px; width:70%; margin:0 auto; border-bottom-width: 2px; border-bottom-color: Black; border-bottom-style: solid}
 .topcontainer {margin-top:10px; padding-left: 0px; width: 70%; margin:0 auto; border-bottom-width: 2px; border-bottom-color: Black; border-bottom-style: solid}
-.bottomcontainer {margin-top:10px; padding-left: 0px; width: 70%; margin:0 auto;}
-
-.footer{bottom:0;width:100%;background-color:red;color:#fff;text-align:center}
+.bottomcontainer {margin-top:10px; padding-left: 0px; width: 70%; margin:0 auto; border-bottom-width: 2px; border-bottom-color: Black; border-bottom-style: solid}
+footer{width:70%; padding-left: 0px; text-align:center; margin:0 auto;}
 #navbar{font-size:60px}
 .center{display:block;margin-left:auto;margin-right:auto;width:100%}
