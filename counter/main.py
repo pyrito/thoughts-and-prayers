@@ -1,4 +1,4 @@
-import accessAPI
+from .accessAPI import *
 import prayersCounter
 import searchAPI
 import datetime
@@ -20,7 +20,7 @@ def setup_db():
 
 # Begin running the tweet scraping process and updating database values
 def run_main():
-    api = accessAPI.get_api()
+    api = get_api()
     setup_db()
     pc = prayersCounter.prayers_counter()
     search = searchAPI.search_API(api, pc)
