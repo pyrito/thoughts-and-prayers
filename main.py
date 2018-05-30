@@ -7,6 +7,7 @@ from threading import Thread, Event
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qezrrpjrtqszjx:c449456bd12b16ce08aa06c05efbce571aa32587194a742e282d81a263a02176@ec2-107-20-133-82.compute-1.amazonaws.com:5432/darb70iqk42ige'
