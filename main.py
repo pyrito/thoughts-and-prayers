@@ -12,7 +12,6 @@ app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qezrrpjrtqszjx:c449456bd12b16ce08aa06c05efbce571aa32587194a742e282d81a263a02176@ec2-107-20-133-82.compute-1.amazonaws.com:5432/darb70iqk42ige'
 db = SQLAlchemy(app)
-
 #Turn the flask into a socket app
 socketio = SocketIO(app)
 thread_update = Thread()
@@ -21,7 +20,7 @@ thread_stop_event = Event()
 #Created a new Thread class that is specific to the Update Thread for the counter
 class UpdateThread(Thread):
     def __init__(self):
-        self.delay = 1
+        self.delay = 5
         super(UpdateThread, self).__init__()
 
     def updater(self):
