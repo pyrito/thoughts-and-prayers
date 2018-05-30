@@ -1,48 +1,46 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from counter.main import run_main
+from counter.counter_main import run_main
 import thread
 from time import sleep
 from threading import Thread, Event
-import sqlite3 as sql
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qezrrpjrtqszjx:c449456bd12b16ce08aa06c05efbce571aa32587194a742e282d81a263a02176@ec2-107-20-133-82.compute-1.amazonaws.com:5432/darb70iqk42ige'
+db = SQLAlchemy(app)
 
 #Turn the flask into a socket app
 socketio = SocketIO(app)
-
-#We have the update thread and the event that says to stop
 thread_update = Thread()
 thread_stop_event = Event()
-print("helllllloo world creating thread")
-thread.start_new_thread(run_main, ())
 
 #Created a new Thread class that is specific to the Update Thread for the counter
 class UpdateThread(Thread):
-	def __init__(self):
-		self.delay = 1
-		super(UpdateThread, self).__init__()
+    def __init__(self):
+        self.delay = 1
+        super(UpdateThread, self).__init__()
 
-	def updater(self):
-		print("working")
-		#Connect to the SQL database
-		con = sql.connect("shootings.db")
-		cur = con.cursor()
+    def updater(self):
+        print("working")
 
 		#As long as we don't get a signal to stop, we keep updating the thread
-		while not thread_stop_event.isSet():
-			#We select the corresponding data, for now, the database only has Noblesville, this can change
-			cur.execute('SELECT tps FROM events WHERE shooting_name="Noblesville"')
-			num = cur.fetchone()[0]
+        while not thread_stop_event.isSet():
+            #We select the corresponding data, for now, the database only has Noblesville, this can change
+            event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
+            if len(event) == 0:
+                db.session.execute("INSERT INTO events VALUES(:id, :location, :count, :when)", {'id': 0, 'location': "Noblesville", 'count': 0, 'when': datetime.datetime(2018, 5, 25)})
+                db.commit()
+                event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
+            num = event[0]
 			#We then send this to the listening socket
-			socketio.emit('newnumber', {'number' : num}, namespace='/test')
-			sleep(self.delay)
+            socketio.emit('newnumber', {'number' : num}, namespace='/test')
+            sleep(self.delay)
 
-	def run(self):
-		self.updater()
+    def run(self):
+        self.updater()
 
 @app.route('/')
 def main():
@@ -63,4 +61,7 @@ def test_disconnect():
     print('Client disconnected')
 
 if __name__ == '__main__':
+#We have the update thread and the event that says to stop
+    print("helllllloo world creating thread")
+    #thread.start_new_thread(run_main, ())
     socketio.run(app)
