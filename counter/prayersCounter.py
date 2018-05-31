@@ -20,7 +20,7 @@ class prayers_counter():
         
         latest = all_shootings[len(all_shootings)-1]
         self.current_shooting = latest[1]
-        self.total = latest[2]
+        self.total = 0
         self.shooting_date = latest[3]
 
     # process the tweet text if to see if its a real thought and/or prayer
