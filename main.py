@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = get_db_string()
 db = SQLAlchemy(app)
+#from models import Shooting
 #Turn the flask into a socket app
 socketio = SocketIO(app, async_mode='eventlet')
 thread_update = Thread()
@@ -31,11 +32,11 @@ class UpdateThread(Thread):
 		#As long as we don't get a signal to stop, we keep updating the thread
         while not thread_stop_event.isSet():
             #We select the corresponding data, for now, the database only has Noblesville, this can change
-            event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
+            event = db.session.execute("""SELECT count FROM events2 WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             if len(event) == 0:
-                db.session.execute("INSERT INTO events VALUES(:id, :location, :count, :when)", {'id': 0, 'location': "Noblesville", 'count': 0, 'when': datetime.datetime(2018, 5, 25)})
+                db.session.execute("INSERT INTO events2 VALUES(:id, :location, :count, :when, :last, :initial, :past)", {'id': 0, 'location': "Noblesville", 'count': 0, 'when': datetime.datetime(2018, 5, 25), 'last': 0, 'initial': 0, 'past': True})
                 db.commit()
-                event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
+                event = db.session.execute("""SELECT count FROM events2 WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             num = event[0]
 			#We then send this to the listening socket
             socketio.emit('newnumber', {'number' : num}, namespace='/test')
