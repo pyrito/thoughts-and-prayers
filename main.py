@@ -30,7 +30,6 @@ class UpdateThread(Thread):
 
 		#As long as we don't get a signal to stop, we keep updating the thread
         while not thread_stop_event.isSet():
-            print("working")
             #We select the corresponding data, for now, the database only has Noblesville, this can change
             event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             if len(event) == 0:
@@ -38,7 +37,6 @@ class UpdateThread(Thread):
                 db.commit()
                 event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             num = event[0]
-            print(num)
 			#We then send this to the listening socket
             socketio.emit('newnumber', {'number' : num}, namespace='/test')
             sleep(self.delay)
