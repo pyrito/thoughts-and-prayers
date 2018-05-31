@@ -49,10 +49,6 @@ class UpdateThread(Thread):
 def main():
 	return render_template('index.html')
 
-@app.route('/.well-known/acme-challenge/_ycyxnYniAGA6NaCimBFVFWAwu3XaCyu9u1Fis70hAI')
-def ssl():
-	return '_ycyxnYniAGA6NaCimBFVFWAwu3XaCyu9u1Fis70hAI.DcP8bC_BC4mLXe8VJ-ril7lMDC1EO0hukJrLPWkxU-c'
-
 @socketio.on('connect', namespace='/test')
 def test_connect():
     global thread_update
