@@ -5,6 +5,8 @@ import thread
 from time import sleep
 from threading import Thread, Event
 from flask_sqlalchemy import SQLAlchemy
+import eventlet
+eventlet.monkey_patch()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -13,21 +15,21 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qezrrpjrtqszjx:c449456bd12b16ce08aa06c05efbce571aa32587194a742e282d81a263a02176@ec2-107-20-133-82.compute-1.amazonaws.com:5432/darb70iqk42ige'
 db = SQLAlchemy(app)
 #Turn the flask into a socket app
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
 thread_update = Thread()
 thread_stop_event = Event()
 
 #Created a new Thread class that is specific to the Update Thread for the counter
 class UpdateThread(Thread):
     def __init__(self):
-        self.delay = 5
+        self.delay = 1
         super(UpdateThread, self).__init__()
 
     def updater(self):
-        print("working")
 
 		#As long as we don't get a signal to stop, we keep updating the thread
         while not thread_stop_event.isSet():
+            print("working")
             #We select the corresponding data, for now, the database only has Noblesville, this can change
             event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             if len(event) == 0:
@@ -35,6 +37,7 @@ class UpdateThread(Thread):
                 db.commit()
                 event = db.session.execute("""SELECT count FROM events WHERE place = :location """, {'location':'Noblesville'}).fetchone()
             num = event[0]
+            print(num)
 			#We then send this to the listening socket
             socketio.emit('newnumber', {'number' : num}, namespace='/test')
             sleep(self.delay)
@@ -48,13 +51,13 @@ def main():
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
-	global thread_update
-	print('connected')
+    global thread_update
+    print('connected')
 
-	#If the thread does not exist then we create the new thread and start it. This prevents multiple threads from coming up
-	if not thread_update.isAlive():
-		thread_update = UpdateThread()
-		thread_update.start()
+    #If the thread does not exist then we create the new thread and start it. This prevents multiple threads from coming up
+    if not thread_update.isAlive():
+        thread_update = UpdateThread()
+        thread_update.start()
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
