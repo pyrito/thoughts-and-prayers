@@ -13,3 +13,5 @@ def get_api():
 def get_db():
     db = create_engine(db_string)
     return db
+def get_db_string():
+	return db_string
